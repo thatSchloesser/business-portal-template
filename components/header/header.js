@@ -21,12 +21,11 @@ export default function Header() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
-    console.log('set open');
+    // console.log('set open');
     setOpen(true);
   };
   const handleDrawerClose = () => {
-    console.log('set close');
-    console.log(open);
+    // console.log('set close');
     setOpen(false);
   };
 
