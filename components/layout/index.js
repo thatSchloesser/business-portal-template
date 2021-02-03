@@ -1,7 +1,7 @@
 // import Link from 'next/link';
 
-import Header from './header/header.js';
-import useStyles from '../styles/mui-styles';
+import Header from '../header';
+import useStyles from '../../styles/mui-styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';

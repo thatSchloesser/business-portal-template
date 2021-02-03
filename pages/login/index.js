@@ -1,15 +1,12 @@
 import { withAuthUser, AuthAction } from 'next-firebase-auth'
-import FirebaseAuth from '../components/FirebaseAuth'
+import Login from '../../components/login';
 
-
-const Login = () => (
-  <>
-    <FirebaseAuth />
-  </>
+const Auth = () => (
+  <Login />
 )
 
 export default withAuthUser({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
   whenUnauthedBeforeInit: AuthAction.RETURN_NULL,
   whenUnauthedAfterInit: AuthAction.RENDER,
-})(Login)
+})(Auth)
