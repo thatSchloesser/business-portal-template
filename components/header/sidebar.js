@@ -6,6 +6,11 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import {
+  useAuthUser
+} from 'next-firebase-auth'
 
 import Link from 'next/Link';
 
@@ -42,14 +47,34 @@ export const mainListItems = (
   </div>
 );
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Secondary List</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary='Settings' />
-    </ListItem>
-  </div>
-);
+export const SecondaryListItems = () => {
+  const AuthUser = useAuthUser();
+  console.log(AuthUser)
+  return (
+  // const AuthUser = useAuthUser();
+    <div>
+      {/* <ListSubheader inset>Manage </ListSubheader> */}
+      <ListItem button>
+        <ListItemIcon>
+          <SettingsIcon />
+        </ListItemIcon>
+        <ListItemText primary='Settings' />
+      </ListItem>
+      <ListItem button onClick={() => {
+        console.log('clicked')
+        AuthUser.signOut()
+      }}>
+        <ListItemIcon>
+          <ExitToAppIcon />
+        </ListItemIcon>
+        <ListItemText primary='Log Out' />
+      </ListItem>
+    </div>
+  );
+}
+
+
+
+  // onClick={() => {
+  //   signOut()
+  // }}
