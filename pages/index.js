@@ -1,9 +1,12 @@
 import Head from 'next/head';
 // import styles from '../styles/Home.module.css';
+import { withAuthUser, AuthAction } from 'next-firebase-auth'
+import FullPageLoader from '../components/FullPageLoader'
+
 
 import Layout from '../components/layout';
 
-export default function Home() {
+const Home = () => {
   return (
     <>
       <Head>
@@ -14,3 +17,9 @@ export default function Home() {
     </>
   );
 }
+
+export default withAuthUser({
+  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  LoaderComponent: FullPageLoader,
+})(Home)
