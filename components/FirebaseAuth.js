@@ -1,8 +1,8 @@
 /* globals window */
-import React, { useEffect, useState } from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import React, { useEffect, useState } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 // Note that next-firebase-auth inits Firebase for us,
 // so we don't need to.
@@ -13,45 +13,64 @@ const firebaseAuthConfig = {
   // https://github.com/firebase/firebaseui-web#configure-oauth-providers
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false,
-    },
+    // {
+    //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    //   requireDisplayName: false,
+    // },
   ],
   signInSuccessUrl: '/',
   credentialHelper: 'none',
   callbacks: {
     // https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl
     signInSuccessWithAuthResult: (authResult) => {
+      //############################
+      // Save new user to external Database:
+      //  => currently configured EXCLUSIVELY for google sign-in
+      //############################
       console.log(authResult);
-      
-      fetch('/api/test');
-
+      const uid = authResult.user ? authResult.user.uid : '';
       const userInfo = authResult.additionalUserInfo;
-      if(userInfo.isNewUser) {
-        console.log('new user!')
 
-        //post userInfo.profile to API!
+      if (userInfo.isNewUser) {
+        console.log('new user!');
       }
 
-
-
-      // Don't automatically redirect. We handle redirecting based on
-      // auth state in withAuthComponent.js.
-      return false
+      //save user
+      try {
+        fetch('/api/create-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: uid,
+            user: userInfo.profile,
+          }),
+        })
+          .then((res) => {
+            // console.log(res);
+          })
+          .then(() => {
+            // Don't automatically redirect. We handle redirecting based on
+            // auth state in withAuthComponent.js.
+            return false;
+          });
+      } catch (e) {
+        throw Error(e.message);
+      }
     },
   },
-}
+};
 
 const FirebaseAuth = () => {
   // Do not SSR FirebaseUI, because it is not supported.
   // https://github.com/firebase/firebaseui-web/issues/213
-  const [renderAuth, setRenderAuth] = useState(false)
+  const [renderAuth, setRenderAuth] = useState(false);
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setRenderAuth(true)
+      setRenderAuth(true);
     }
-  }, [])
+  }, []);
   return (
     <div>
       {renderAuth ? (
@@ -61,7 +80,7 @@ const FirebaseAuth = () => {
         />
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default FirebaseAuth
+export default FirebaseAuth;
