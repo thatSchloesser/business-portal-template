@@ -8,9 +8,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import {
-  useAuthUser
-} from 'next-firebase-auth'
+import { useAuthUser } from 'next-firebase-auth';
 
 import Link from 'next/Link';
 
@@ -49,9 +47,9 @@ export const mainListItems = (
 
 export const SecondaryListItems = () => {
   const AuthUser = useAuthUser();
-  console.log(AuthUser)
+  console.log(AuthUser);
   return (
-  // const AuthUser = useAuthUser();
+    // const AuthUser = useAuthUser();
     <div>
       {/* <ListSubheader inset>Manage </ListSubheader> */}
       <ListItem button>
@@ -60,10 +58,13 @@ export const SecondaryListItems = () => {
         </ListItemIcon>
         <ListItemText primary='Settings' />
       </ListItem>
-      <ListItem button onClick={() => {
-        console.log('clicked')
-        AuthUser.signOut()
-      }}>
+      <ListItem
+        button
+        onClick={() => {
+          console.log('clicked');
+          AuthUser.signOut();
+        }}
+      >
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>
@@ -71,10 +72,8 @@ export const SecondaryListItems = () => {
       </ListItem>
     </div>
   );
-}
+};
 
-
-
-  // onClick={() => {
-  //   signOut()
-  // }}
+// onClick={() => {
+//   signOut()
+// }}

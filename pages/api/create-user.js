@@ -1,12 +1,30 @@
 import { query } from '../../utils/db';
 
-//NOTE: I have to authenticate this too.
+//already initialized form next-firebase-auth!
+import * as admin from 'firebase-admin';
 
 const handler = async (req, res) => {
-  const { id, user } = req.body;
-  console.log(user);
+  //this isn't a page
+  if (req.method === 'GET') {
+    return res.redirect('/');
+  }
+
+  //authorize post first
+  if (!(req.headers && req.headers.authorization)) {
+    return res
+      .status(400)
+      .json({ error: 'Missing Authorization header value' });
+  }
+  const token = req.headers.authorization;
   try {
-    console.log(user.email);
+    await admin.auth().verifyIdToken(token);
+  } catch (e) {
+    console.error(e);
+    return res.status(403).json({ error: 'Not authorized' });
+  }
+
+  const { id, user } = req.body;
+  try {
     //for Firebase, currently
     const results = await query(
       `

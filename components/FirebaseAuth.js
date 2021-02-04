@@ -27,36 +27,35 @@ const firebaseAuthConfig = {
       // Save new user to external Database:
       //  => currently configured EXCLUSIVELY for google sign-in
       //############################
-      console.log(authResult);
-      const uid = authResult.user ? authResult.user.uid : '';
       const userInfo = authResult.additionalUserInfo;
 
       if (userInfo.isNewUser) {
-        console.log('new user!');
-      }
-
-      //save user
-      try {
-        fetch('/api/create-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: uid,
-            user: userInfo.profile,
-          }),
-        })
-          .then((res) => {
-            // console.log(res);
-          })
-          .then(() => {
-            // Don't automatically redirect. We handle redirecting based on
-            // auth state in withAuthComponent.js.
-            return false;
-          });
-      } catch (e) {
-        throw Error(e.message);
+        const uid = authResult.user ? authResult.user.uid : '';
+        try {
+          firebase
+            .auth()
+            .currentUser.getIdToken(true)
+            .then((token) => {
+              fetch('/api/create-user', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: token,
+                },
+                body: JSON.stringify({
+                  id: uid,
+                  user: userInfo.profile,
+                }),
+              });
+            })
+            .then(() => {
+              // Don't automatically redirect. We handle redirecting based on
+              // auth state in withAuthComponent.js.
+              return false;
+            });
+        } catch (e) {
+          throw Error(e.message);
+        }
       }
     },
   },
