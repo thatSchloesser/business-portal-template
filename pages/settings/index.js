@@ -4,9 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useAuthUser } from 'next-firebase-auth';
+import Settings from '../../components/settings';
 
 // markup
-const Settings = () => {
+const SettingsPage = () => {
   const classes = useStyles(); //I need this to be a prop in the _app component
   const AuthUser = useAuthUser();
   console.log(AuthUser);
@@ -15,8 +16,8 @@ const Settings = () => {
     <Layout>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper className={classes.paper} square>
-            Settings page!
+          <Paper square>
+            <Settings />
           </Paper>
         </Grid>
       </Grid>
@@ -24,4 +25,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsPage;
