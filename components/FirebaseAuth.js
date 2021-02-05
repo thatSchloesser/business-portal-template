@@ -49,13 +49,16 @@ const firebaseAuthConfig = {
               });
             })
             .then(() => {
-              // Don't automatically redirect. We handle redirecting based on
-              // auth state in withAuthComponent.js.
+              //see note below
               return false;
             });
         } catch (e) {
           throw Error(e.message);
         }
+      } else {
+        // Don't automatically redirect. We handle redirecting based on
+        // auth state in withAuthComponent.js.
+        return false;
       }
     },
   },
