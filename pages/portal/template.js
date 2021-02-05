@@ -9,7 +9,7 @@ const Template = () => {
   const classes = useStyles();
 
   return (
-    <Layout>
+    <Layout pageTitle={'Template'}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>* Insert portlet here *</Paper>

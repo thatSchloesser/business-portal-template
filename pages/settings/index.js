@@ -13,7 +13,7 @@ const SettingsPage = () => {
   console.log(AuthUser);
 
   return (
-    <Layout>
+    <Layout pageTitle={'Settings'}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper square>

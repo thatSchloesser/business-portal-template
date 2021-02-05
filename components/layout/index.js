@@ -22,12 +22,12 @@ function Copyright() {
   );
 }
 
-const Layout = ({ children }) => {
+const Layout = ({ children, pageTitle }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Header />
+      <Header pageTitle={pageTitle} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>

@@ -17,7 +17,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, SecondaryListItems } from './sidebar';
 import useStyles from '../../styles/mui-styles';
 
-export default function Header() {
+export default function Header({ pageTitle }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
@@ -56,7 +56,7 @@ export default function Header() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            {pageTitle}
           </Typography>
           <IconButton color='inherit'>
             <Badge badgeContent={4} color='secondary'>
