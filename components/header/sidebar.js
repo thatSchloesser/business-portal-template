@@ -47,17 +47,19 @@ export const mainListItems = (
 
 export const SecondaryListItems = () => {
   const AuthUser = useAuthUser();
-  console.log(AuthUser);
+  // console.log(AuthUser);
   return (
     // const AuthUser = useAuthUser();
     <div>
       {/* <ListSubheader inset>Manage </ListSubheader> */}
-      <ListItem button>
-        <ListItemIcon>
-          <SettingsIcon />
-        </ListItemIcon>
-        <ListItemText primary='Settings' />
-      </ListItem>
+      <Link href='/settings' style={{ textDecoration: 'none', color: 'black' }}>
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary='Settings' />
+        </ListItem>
+      </Link>
       <ListItem
         button
         onClick={() => {

@@ -1,5 +1,8 @@
 // import Link from 'next/link';
 
+import { withAuthUser, AuthAction } from 'next-firebase-auth';
+import FullPageLoader from '../../components/FullPageLoader';
+
 import Header from '../header';
 import useStyles from '../../styles/mui-styles';
 import Container from '@material-ui/core/Container';
@@ -19,7 +22,7 @@ function Copyright() {
   );
 }
 
-export default function Layout({ children }) {
+const Layout = ({ children }) => {
   const classes = useStyles();
 
   return (
@@ -36,4 +39,10 @@ export default function Layout({ children }) {
       </main>
     </div>
   );
-}
+};
+
+export default withAuthUser({
+  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  LoaderComponent: FullPageLoader,
+})(Layout);
