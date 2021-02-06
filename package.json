@@ -13,6 +13,7 @@
     "@material-ui/icons": "^4.11.2",
     "clsx": "^1.1.1",
     "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
     "firebase": "^8.2.5",
     "firebase-admin": "^9.4.2",
     "next": "10.0.5",
