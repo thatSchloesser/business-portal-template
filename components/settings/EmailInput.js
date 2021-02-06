@@ -11,33 +11,30 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import * as EmailValidator from 'email-validator';
 
-const Email = ({ user }) => {
-  console.log(user);
-
+const Email = ({ value, postCallback }) => {
   let [edit, setEdit] = useState(false);
   let [e, setE] = useState(false);
   let [msg, setMsg] = useState('');
+  let [email, setEmail] = useState(value);
 
   const updateEmail = (e) => {
     console.log(e.target.value);
-    // setUser({ firstName: e.target.value });
-    console.log(user);
-    user.email = e.target.value;
-    console.log(user);
+    setEmail(e.target.value);
+    console.log(email);
   };
 
   const postEmail = () => {
-    if (user.email.length < 1) {
+    if (email.length < 1) {
       setE(true);
       setMsg('Please Input Value');
-    } else if (!EmailValidator.validate(user.email)) {
+    } else if (!EmailValidator.validate(email)) {
       setE(true);
       setMsg('Please Input Valid Email');
     } else {
-      //api call here
       setE(false);
       setMsg('');
       setEdit(false);
+      postCallback(email);
     }
   };
 
@@ -55,7 +52,7 @@ const Email = ({ user }) => {
           <ListItem>
             <TextField
               fullWidth
-              defaultValue={user.email}
+              defaultValue={email}
               disabled={!edit}
               onChange={updateEmail}
               error={e}
