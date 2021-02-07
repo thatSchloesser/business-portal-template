@@ -17,14 +17,11 @@ import Divider from '@material-ui/core/Divider';
 
 const Settings = () => {
   const AuthUser = useAuthUser(); // the user is guaranteed to be authenticated
-  // console.log(AuthUser);
 
   const [user, setUser] = useState();
   const fetchUser = useCallback(async () => {
-    console.log('in fetch');
-
     const token = await AuthUser.getIdToken();
-    const endpoint = `/api/get-user?id=${AuthUser.id}`;
+    const endpoint = `/api/user/get?id=${AuthUser.id}`;
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {

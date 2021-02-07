@@ -36,7 +36,7 @@ const firebaseAuthConfig = {
             .auth()
             .currentUser.getIdToken(true)
             .then((token) => {
-              fetch('/api/create-user', {
+              fetch('/api/user/create', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

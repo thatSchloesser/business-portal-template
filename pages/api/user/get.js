@@ -33,7 +33,6 @@ const handler = async (req, res) => {
     `,
       id
     );
-    console.log(results);
     return res.json(results[0]);
   } catch (e) {
     res.status(500).json({ message: e.message });
