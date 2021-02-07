@@ -1,4 +1,4 @@
-import { query } from '../../util/db';
+import { query } from '../../utils/db';
 import { verifyIdToken } from 'next-firebase-auth';
 import initAuth from '../../utils/initAuth';
 
@@ -33,7 +33,7 @@ const handler = async (req, res) => {
     `,
       id
     );
-
+    console.log(results);
     return res.json(results[0]);
   } catch (e) {
     res.status(500).json({ message: e.message });
