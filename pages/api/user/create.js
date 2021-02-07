@@ -1,4 +1,4 @@
-import { query } from '../../utils/db';
+import { query } from '../../../utils/db';
 
 //already initialized form next-firebase-auth!
 import * as admin from 'firebase-admin';

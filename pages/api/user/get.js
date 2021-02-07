@@ -1,6 +1,6 @@
-import { query } from '../../utils/db';
+import { query } from '../../../utils/db';
 import { verifyIdToken } from 'next-firebase-auth';
-import initAuth from '../../utils/initAuth';
+import initAuth from '../../../utils/initAuth';
 
 initAuth();
 
