@@ -18,9 +18,7 @@ const Email = ({ value, postCallback }) => {
   let [email, setEmail] = useState(value);
 
   const updateEmail = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
-    console.log(email);
   };
 
   const postEmail = () => {

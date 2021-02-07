@@ -18,15 +18,10 @@ const Input = ({ label, value, postCallback }) => {
   let [val, setVal] = useState(value);
 
   const updateInput = (e) => {
-    console.log(e.target.value);
     setVal(e.target.value);
-    console.log(val);
   };
 
   const postInput = () => {
-    console.log(val);
-    console.log(val.length);
-
     if (val.length < 1) {
       setE(true);
       setMsg('Please Input Value');
