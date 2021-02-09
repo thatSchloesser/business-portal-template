@@ -3,7 +3,7 @@ import { useAuthUser } from 'next-firebase-auth';
 
 import List from '@material-ui/core/List';
 import EmailInput from './EmailInput';
-import EmailLabel from './EmailLabel';
+import Label from './Label';
 import TextInput from './TextInput';
 import Divider from '@material-ui/core/Divider';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -84,12 +84,11 @@ const Settings = () => {
       {/* <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' /> */}
       {/* <Divider /> */}
       <List>
-        asdfasdfds
-        {edit ? 'true' : 'false'}
+        {/* email */}
         {edit ? (
           email.current
         ) : (
-          <EmailLabel>
+          <Label label='email'>
             {user.email}
             <IconButton
               edge='end'
@@ -98,7 +97,7 @@ const Settings = () => {
             >
               <EditIcon />
             </IconButton>
-          </EmailLabel>
+          </Label>
         )}
         <Divider />
         <TextInput
