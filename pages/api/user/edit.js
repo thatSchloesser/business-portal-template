@@ -1,6 +1,7 @@
 import { query } from '../../../utils/db';
 
 const handler = async (req, res) => {
+  console.log(req);
   const { id, email, first_name, last_name } = req.body;
   try {
     if (!email || !first_name || !last_name) {

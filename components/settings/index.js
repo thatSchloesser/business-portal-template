@@ -11,15 +11,15 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 // import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
+import ListItemText from '@material-ui/core/ListItemText';
 
 //TODO
 
 /*
 3. UPDATE user  
 
-  update button in parent component
-    state change
+~  update button in parent component
+~    state change
   update input: get callback function working:
   post update call: 
     create the object with passed value instead of updating state. 
@@ -28,11 +28,11 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const Settings = () => {
   const AuthUser = useAuthUser(); // the user is guaranteed to be authenticated
-  let email = useRef(null);
+  let email = useRef('error');
 
-  let [edit, setEdit] = useState(false);
-
+  const [edit, setEdit] = useState(false);
   const [user, setUser] = useState({});
+
   const fetchUser = useCallback(async () => {
     const token = await AuthUser.getIdToken();
     const endpoint = `/api/user/get?id=${AuthUser.id}`;
@@ -55,29 +55,60 @@ const Settings = () => {
     return data;
   }, [AuthUser]);
 
-  //this gets called twice on page load:
+  const updateUser = useCallback(
+    async (value) => {
+      try {
+        const token = await AuthUser.getIdToken();
+        const res = await fetch('/api/user/edit', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify(value),
+        });
+        const json = await res.json();
+        if (!res.ok) throw Error(json.message);
+
+        //TRIGGER SAVE ALERT BADGE HERE!
+      } catch (e) {
+        throw Error(e.message);
+      }
+    },
+    [AuthUser]
+  );
+
+  const discardChanges = () => {
+    setEdit(false);
+  };
+
+  //this gets called at least twice on page load:
   //second time is after fetchUser is set (hence dependency)
   useEffect(() => {
     const getUser = async () => {
       console.log(user);
       const data = await fetchUser();
       console.log(data);
+      console.log(setUser);
       await setUser(data ? data : 'undefined');
-      email.current = <EmailInput value={data.email} postCallback={f} />;
+      const updateEmail = (val) => {
+        data.email = val;
+        updateUser(data);
+        console.log('updated!');
+        setEdit(false);
+      };
+      email.current = (
+        <EmailInput
+          postCallback={updateEmail}
+          discardChanges={discardChanges}
+        />
+      );
     };
     getUser();
 
     console.log(user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchUser]);
-
-  let userData = {
-    email: 'test@test.com',
-    firstName: 'bob',
-    lastName: 'Yolo',
-  };
-
-  const f = (val) => console.log('hi from callback', val);
+  }, [fetchUser, updateUser]);
 
   return (
     <>
@@ -85,31 +116,37 @@ const Settings = () => {
       {/* <Divider /> */}
       <List>
         {/* email */}
-        {edit ? (
-          email.current
-        ) : (
-          <Label label='email'>
-            {user.email}
-            <IconButton
-              edge='end'
-              aria-label='edit'
-              onClick={() => setEdit(true)}
-            >
-              <EditIcon />
-            </IconButton>
-          </Label>
-        )}
+        {/* {email.current} */}
+        <Label label='Email'>
+          {edit ? (
+            <>{email.current}</>
+          ) : (
+            <>
+              <ListItemText>{user.email}</ListItemText>
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge='end'
+                  aria-label='edit'
+                  onClick={() => setEdit(true)}
+                  key='button'
+                >
+                  <EditIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </>
+          )}
+        </Label>
         <Divider />
         <TextInput
           label={'Given Name'}
-          value={userData.firstName}
-          postCallback={f}
+          value={user.first_name}
+          // postCallback={f}
         />
         <Divider />
         <TextInput
           label={'Surname'}
-          value={userData.lastName}
-          postCallback={f}
+          value={user.last_name}
+          // postCallback={f}
         />
         {/* <ListItem button>
           <ListItemText>Email </ListItemText>
