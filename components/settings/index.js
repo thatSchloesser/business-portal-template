@@ -28,9 +28,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const Settings = () => {
   const AuthUser = useAuthUser(); // the user is guaranteed to be authenticated
-  let email = useRef('error');
 
-  const [edit, setEdit] = useState(false);
+  let emailInput = useRef('error');
+  let nameInput = useRef('error');
+  let surnameInput = useRef('error');
+
+  const [changeEmail, setEmail] = useState(false);
+  const [changeName, setName] = useState(false);
+  const [changeSurname, setSurname] = useState(false);
   const [user, setUser] = useState({});
 
   const fetchUser = useCallback(async () => {
@@ -79,34 +84,52 @@ const Settings = () => {
   );
 
   const discardChanges = () => {
-    setEdit(false);
+    setEmail(false);
+    setName(false);
+    setSurname(false);
   };
 
   //this gets called at least twice on page load:
   //second time is after fetchUser is set (hence dependency)
   useEffect(() => {
     const getUser = async () => {
-      console.log(user);
       const data = await fetchUser();
-      console.log(data);
-      console.log(setUser);
-      await setUser(data ? data : 'undefined');
+      await setUser(data ? data : {});
+
       const updateEmail = (val) => {
         data.email = val;
         updateUser(data);
-        console.log('updated!');
-        setEdit(false);
+        console.log('updated email!');
+        setEmail(false);
       };
-      email.current = (
+      emailInput.current = (
         <EmailInput
           postCallback={updateEmail}
           discardChanges={discardChanges}
         />
       );
+      const updateName = (val) => {
+        data.first_name = val;
+        console.log('updated name!');
+        setName(false);
+      };
+      nameInput.current = (
+        <TextInput postCallback={updateName} discardChanges={discardChanges} />
+      );
+      const updateSurname = (val) => {
+        data.last_name = val;
+        console.log('updated surname!');
+        setSurname(false);
+      };
+      surnameInput.current = (
+        <TextInput
+          postCallback={updateSurname}
+          discardChanges={discardChanges}
+        />
+      );
     };
-    getUser();
 
-    console.log(user);
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchUser, updateUser]);
 
@@ -118,8 +141,8 @@ const Settings = () => {
         {/* email */}
         {/* {email.current} */}
         <Label label='Email'>
-          {edit ? (
-            <>{email.current}</>
+          {changeEmail ? (
+            <>{emailInput.current}</>
           ) : (
             <>
               <ListItemText>{user.email}</ListItemText>
@@ -127,7 +150,7 @@ const Settings = () => {
                 <IconButton
                   edge='end'
                   aria-label='edit'
-                  onClick={() => setEdit(true)}
+                  onClick={() => setEmail(true)}
                   key='button'
                 >
                   <EditIcon />
@@ -137,20 +160,46 @@ const Settings = () => {
           )}
         </Label>
         <Divider />
-        <TextInput
-          label={'Given Name'}
-          value={user.first_name}
-          // postCallback={f}
-        />
+
+        <Label label='Name'>
+          {changeName ? (
+            <>{nameInput.current}</>
+          ) : (
+            <>
+              <ListItemText>{user.first_name}</ListItemText>
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge='end'
+                  aria-label='edit'
+                  onClick={() => setName(true)}
+                  key='button'
+                >
+                  <EditIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </>
+          )}
+        </Label>
         <Divider />
-        <TextInput
-          label={'Surname'}
-          value={user.last_name}
-          // postCallback={f}
-        />
-        {/* <ListItem button>
-          <ListItemText>Email </ListItemText>
-        </ListItem> */}
+        <Label label='Surname'>
+          {changeSurname ? (
+            <>{surnameInput.current}</>
+          ) : (
+            <>
+              <ListItemText>{user.last_name}</ListItemText>
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge='end'
+                  aria-label='edit'
+                  onClick={() => setSurname(true)}
+                  key='button'
+                >
+                  <EditIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </>
+          )}
+        </Label>
       </List>
     </>
   );

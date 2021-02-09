@@ -37,8 +37,7 @@ const EmailInput = ({ postCallback, discardChanges }) => {
     <>
       <TextField
         fullWidth
-        label='new email'
-        // defaultValue={email}
+        label='New Email'
         onChange={updateEmail}
         error={e}
         helperText={msg}
