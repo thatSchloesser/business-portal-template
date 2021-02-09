@@ -11,7 +11,9 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import * as EmailValidator from 'email-validator';
 
-const Email = ({ value, postCallback }) => {
+const Email = ({ value, postCallback, children }) => {
+  console.log(children);
+
   let [edit, setEdit] = useState(false);
   let [e, setE] = useState(false);
   let [msg, setMsg] = useState('');
@@ -51,33 +53,8 @@ const Email = ({ value, postCallback }) => {
           {/* kind of strange that a graph lets us stick this inline, but hey why not */}
           {/* <ListItem pt={0} style={{ 'padding-top': '0' }}> */}
           <ListItem>
-            <TextField
-              fullWidth
-              defaultValue={email}
-              disabled={!edit}
-              onChange={updateEmail}
-              error={e}
-              helperText={msg}
-            />
-            <ListItemSecondaryAction>
-              {!edit ? (
-                <IconButton
-                  edge='end'
-                  aria-label='edit'
-                  onClick={() => setEdit(true)}
-                >
-                  <EditIcon />
-                </IconButton>
-              ) : (
-                <IconButton
-                  edge='end'
-                  aria-label='save'
-                  onClick={() => postEmail()}
-                >
-                  <SaveIcon />
-                </IconButton>
-              )}
-            </ListItemSecondaryAction>
+            {children[0]}
+            <ListItemSecondaryAction>{children[1]}</ListItemSecondaryAction>
           </ListItem>
         </Grid>
       </Grid>
