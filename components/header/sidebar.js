@@ -1,7 +1,6 @@
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
@@ -10,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { useAuthUser } from 'next-firebase-auth';
 
-import Link from 'next/Link';
+import Link from 'next/link';
 
 export const mainListItems = (
   <div>

@@ -99,8 +99,6 @@ const Settings = () => {
       const updateEmail = (val) => {
         data.email = val;
         updateUser(data);
-        console.log('updated email!');
-        setEmail(false);
       };
       emailInput.current = (
         <EmailInput
@@ -110,7 +108,7 @@ const Settings = () => {
       );
       const updateName = (val) => {
         data.first_name = val;
-        console.log('updated name!');
+        updateUser(data);
         setName(false);
       };
       nameInput.current = (
@@ -118,7 +116,7 @@ const Settings = () => {
       );
       const updateSurname = (val) => {
         data.last_name = val;
-        console.log('updated surname!');
+        updateUser(data);
         setSurname(false);
       };
       surnameInput.current = (
