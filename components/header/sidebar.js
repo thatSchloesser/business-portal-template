@@ -29,7 +29,7 @@ export const mainListItems = (
         <ListItemIcon>
           <NotesIcon />
         </ListItemIcon>
-        <ListItemText primary='Sample Page' />
+        <ListItemText primary='Notes' />
       </ListItem>
     </Link>
     <Link
@@ -40,7 +40,7 @@ export const mainListItems = (
         <ListItemIcon>
           <LayersIcon />
         </ListItemIcon>
-        <ListItemText primary='Integrations' />
+        <ListItemText primary='Template' />
       </ListItem>
     </Link>
   </div>

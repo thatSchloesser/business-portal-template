@@ -52,7 +52,7 @@ const Notes = () => {
           <Note note={note} />
         </Grid>
       </Grid>
-      <Link href='/'>
+      <Link href='/notes/new'>
         <Fab color='primary' aria-label='add' className={classes.cornerButton}>
           <AddIcon />
         </Fab>

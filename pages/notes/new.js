@@ -1,11 +1,11 @@
 import Layout from '../../components/layout';
-import useStyles from '../../styles/mui-styles';
+
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import useStyles from '../../styles/mui-styles';
+
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Link from 'next/link';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import Paper from '@material-ui/core/Paper';
 
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 
@@ -28,27 +28,45 @@ import AddIcon from '@material-ui/icons/Add';
 const New = () => {
   const classes = useStyles();
 
+  const submitHandler = () => {
+    console.log('hello from submit handler');
+  };
+
   return (
-    <Layout pageTitle={'Notes'}>
+    <Layout pageTitle={'New Note'}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            * Insert portlet here *
-            <div>
-              <Link href='/'>
-                <Button color='primary' href='#'>
-                  new
+            <form noValidate autoComplete='off' onSubmit={submitHandler}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <TextField id='standard-basic' label='Standard' />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id='filled-basic'
+                    label='Filled'
+                    variant='filled'
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    multiline
+                    id='outlined-basic'
+                    label='Outlined'
+                    variant='outlined'
+                  />
+                </Grid>
+              </Grid>
+              <div>
+                <Button type='submit' variant='contained' color='primary'>
+                  Save
                 </Button>
-              </Link>
-            </div>
+              </div>
+            </form>
           </Paper>
         </Grid>
       </Grid>
-      <Link href='/'>
-        <Fab color='primary' aria-label='add' className={classes.cornerButton}>
-          <AddIcon />
-        </Fab>
-      </Link>
     </Layout>
   );
 };
