@@ -19,7 +19,14 @@ const Sample = () => {
       <Grid container spacing={3}>
         {/* Chart */}
         <Grid item xs={12} md={8} lg={9}>
-          <Paper className={fixedHeightPaper}>SOME PORTLET HERE</Paper>
+          <Paper className={fixedHeightPaper}>
+            <p>
+              Right now this Dashboard is populated with dummy data.
+              <br />
+              <br />
+              {'<=='} Check out the settings or notes page for functionality
+            </p>
+          </Paper>
         </Grid>
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={3}>

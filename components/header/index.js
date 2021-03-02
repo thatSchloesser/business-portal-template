@@ -58,11 +58,12 @@ export default function Header({ pageTitle }) {
           >
             {pageTitle}
           </Typography>
-          <IconButton color='inherit'>
+          {/* alerts badge */}
+          {/* <IconButton color='inherit'>
             <Badge badgeContent={4} color='secondary'>
               <NotificationsIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       <Drawer

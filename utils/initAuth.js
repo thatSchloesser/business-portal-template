@@ -1,12 +1,12 @@
-import { init } from 'next-firebase-auth'
+import { init } from 'next-firebase-auth';
 
-const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000
+const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000;
 
 const initAuth = () => {
   init({
     debug: false,
     authPageURL: '/login',
-    appPageURL: '/',
+    appPageURL: '/portal/dashboard',
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     firebaseAdminInitConfig: {
@@ -17,8 +17,8 @@ const initAuth = () => {
         // key as a secret in Vercel. See:
         // https://github.com/vercel/vercel/issues/749#issuecomment-707515089
         privateKey: process.env.FIREBASE_PRIVATE_KEY
-        ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
-        : undefined,
+          ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
+          : undefined,
       },
       databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     },
@@ -42,7 +42,7 @@ const initAuth = () => {
       secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === 'true',
       signed: true,
     },
-  })
-}
+  });
+};
 
-export default initAuth
+export default initAuth;
