@@ -48,7 +48,7 @@ export const mainListItems = (
 
 export const SecondaryListItems = () => {
   const AuthUser = useAuthUser();
-  // console.log(AuthUser);
+
   return (
     // const AuthUser = useAuthUser();
     <div>
@@ -76,7 +76,3 @@ export const SecondaryListItems = () => {
     </div>
   );
 };
-
-// onClick={() => {
-//   signOut()
-// }}

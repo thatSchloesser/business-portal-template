@@ -9,7 +9,7 @@ const Home = () => {
         <title>Stephen Schloesser Business Portal</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Layout> Hello World \n</Layout>;
+      <Layout> Hello World \n</Layout>
     </>
   );
 };

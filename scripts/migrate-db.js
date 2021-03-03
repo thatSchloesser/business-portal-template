@@ -46,7 +46,30 @@ async function migrate() {
     `);
     console.log('migration ran successfully');
   } catch (e) {
-    console.error('could not run migration, double check your credentials.');
+    console.error(
+      'could not run migration (user table), double check your credentials.'
+    );
+    process.exit(1);
+  }
+
+  try {
+    await query(`
+    CREATE TABLE IF NOT EXISTS notes (
+      id int NOT NULL AUTO_INCREMENT,
+      userid varchar(56) DEFAULT NULL,
+      title varchar(45) DEFAULT NULL,
+      content varchar(500) DEFAULT NULL,
+      created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (id),
+      KEY userid_idx (userid),
+      CONSTRAINT userid FOREIGN KEY (userid) REFERENCES users (id)
+    )`);
+    console.log('migration ran successfully');
+  } catch (e) {
+    console.error(
+      'could not run migration (notes table), double check your credentials.'
+    );
     process.exit(1);
   }
 }
