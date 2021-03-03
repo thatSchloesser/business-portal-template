@@ -11,22 +11,10 @@ import getAbsoluteURL from '../../utils/getAbsoluteURL';
 
 import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 
-// import NotificationsIcon from '@material-ui/icons/Notifications';
-
 // TODO:
 
-//1) this page
-// floating + button in corner
-// media card-like notes
-//think of this as google keep-y looking without all the fancy functionality
-
-//2) create page
-//submit form
-
-//3) edit note
+//3) edit /delete note
 // same concept as above
-
-//4) backend routes
 
 // markup
 const Notes = ({ notes }) => {
@@ -34,29 +22,29 @@ const Notes = ({ notes }) => {
 
   console.log(notes);
 
-  const note = {
-    title: 'some title',
-    content: 'some content that is nifty',
+  const emptyNote = {
+    title: 'No Notes Found!',
+    content: 'Go ahead and click that plus button',
   };
 
+  let noteCards = [];
+  notes.forEach((note) => {
+    noteCards.push(
+      <Grid item xs={12} md={4}>
+        <Note note={note} />
+      </Grid>
+    );
+  });
   return (
     <Layout pageTitle={'Notes'}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Note note={note} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Note note={note} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Note note={note} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Note note={note} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Note note={note} />
-        </Grid>
+        {notes.length > 0 ? (
+          noteCards
+        ) : (
+          <Grid item xs={12} md={4}>
+            <Note note={emptyNote} />
+          </Grid>
+        )}
       </Grid>
       <Link href='/notes/new'>
         <Fab color='primary' aria-label='add' className={classes.cornerButton}>
@@ -69,29 +57,27 @@ const Notes = ({ notes }) => {
 
 export const getServerSideProps = withAuthUserTokenSSR()(
   async ({ AuthUser, req }) => {
-    console.log('hi from server', AuthUser);
     const token = await AuthUser.getIdToken();
-    const endpoint = getAbsoluteURL(`/api/notes/get?id=${AuthUser.id}`, req);
+    // const endpoint = getAbsoluteURL(`/api/notes/get?id=${AuthUser.id}`, req);
+    const endpoint = getAbsoluteURL(`/api/notes/get`, req);
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
         Authorization: token,
       },
     });
-    const data = await response.json();
+    const notes = await response.json();
     if (!response.ok) {
       console.error(
         `Data fetching failed with status ${response.status}: ${JSON.stringify(
-          data
+          notes
         )}`
       );
       return null;
     }
-    let notes = data;
-    console.log(notes);
 
     return {
-      props: { notes }, // will be passed to the page component as props
+      props: { notes },
     };
   }
 );
