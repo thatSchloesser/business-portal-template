@@ -7,6 +7,10 @@ import Link from 'next/link';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import getAbsoluteURL from '../../utils/getAbsoluteURL';
+
+import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
+
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 
 // TODO:
@@ -25,8 +29,10 @@ import AddIcon from '@material-ui/icons/Add';
 //4) backend routes
 
 // markup
-const Notes = () => {
+const Notes = ({ notes }) => {
   const classes = useStyles();
+
+  console.log(notes);
 
   const note = {
     title: 'some title',
@@ -61,4 +67,33 @@ const Notes = () => {
   );
 };
 
-export default Notes;
+export const getServerSideProps = withAuthUserTokenSSR()(
+  async ({ AuthUser, req }) => {
+    console.log('hi from server', AuthUser);
+    const token = await AuthUser.getIdToken();
+    const endpoint = getAbsoluteURL(`/api/notes/get?id=${AuthUser.id}`, req);
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(
+        `Data fetching failed with status ${response.status}: ${JSON.stringify(
+          data
+        )}`
+      );
+      return null;
+    }
+    let notes = data;
+    console.log(notes);
+
+    return {
+      props: { notes }, // will be passed to the page component as props
+    };
+  }
+);
+
+export default withAuthUser()(Notes);

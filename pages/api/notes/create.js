@@ -33,10 +33,4 @@ const handler = async (req, res) => {
   }
 };
 
-export async function getServerSideProps() {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
-
 export default handler;
