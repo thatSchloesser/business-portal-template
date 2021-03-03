@@ -17,25 +17,34 @@ const handler = async (req, res) => {
   } catch (e) {
     return res.status(403).json({ error: 'Not authorized' });
   }
-  const { userid, title, content } = req.body;
-  try {
-    const results = await query(
+
+  const { userid } = req.query;
+  if (userid) {
+    try {
+      const results = await query(
+        `
+        SELECT *
+        FROM notes 
+        WHERE userid = ?
+      `,
+        userid
+      );
+      return res.json(results);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  } else {
+    try {
+      const results = await query(
+        `
+        SELECT * FROM notes 
       `
-      INSERT INTO notes (userid, title, content)
-      VALUES (?,?,?)
-    `,
-      [userid, title, content]
-    );
-    return res.json(results);
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+      );
+      return res.json(results);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
 };
-
-export async function getServerSideProps() {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
 
 export default handler;
