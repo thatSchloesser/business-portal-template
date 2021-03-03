@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
-import { useAuthUser } from 'next-firebase-auth';
+import { useAuthUser, withAuthUser } from 'next-firebase-auth';
 
 import List from '@material-ui/core/List';
 import EmailInput from './EmailInput';
@@ -203,4 +203,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default withAuthUser()(Settings);
