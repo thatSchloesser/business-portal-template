@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { withAuthUser, useAuthUser } from 'next-firebase-auth';
 import Router from 'next/router';
-
-import Layout from '../../components/layout';
-
-import Grid from '@material-ui/core/Grid';
 import useStyles from '../../styles/mui-styles';
 
+import Layout from '../../components/layout';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 
@@ -32,21 +29,28 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 // markup
 
 const New = () => {
+  const AuthUser = useAuthUser();
   const classes = useStyles();
 
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  async function submitHandler(e) {
+  async function createNote(e) {
     e.preventDefault();
     setSubmitting(true);
     try {
+      const token = await AuthUser.getIdToken();
       const res = await fetch('/api/notes/create', {
         method: 'POST',
         headers: {
+          Authorization: token,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          hi: 'hi',
+          userid: AuthUser.id,
+          title,
+          content,
         }),
       });
       const json = await res.json();
@@ -58,41 +62,42 @@ const New = () => {
     }
   }
 
-  const titleHandler = (e) => {};
+  const titleHandler = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const contentHandler = (e) => {
+    setContent(e.target.value);
+  };
 
   return (
     <Layout pageTitle={'New Note'}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <form autoComplete='off' onSubmit={submitHandler}>
+            <form autoComplete='off' onSubmit={createNote}>
               <Grid container spacing={3}>
                 <Grid item md={8} xs={12}>
                   <TextField
-                    required={true}
+                    label='Title'
                     fullWidth
                     multiline
-                    id='1'
-                    label='Title'
+                    required
                     variant='outlined'
                     inputProps={{ maxLength: 45 }}
-                    // onChange={titleHandler}
-                    // error={titleE}
-                    // helperText={titleHelper}
+                    onChange={titleHandler}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  {/* <TextareaAutosize /> */}
-
                   <TextField
+                    label='Note'
                     fullWidth
                     multiline
-                    id='2'
-                    label='Note'
+                    required
                     variant='outlined'
-                    required={true}
                     rows={7}
                     inputProps={{ maxLength: 500 }}
+                    onChange={contentHandler}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -116,4 +121,13 @@ const New = () => {
   );
 };
 
-export default New;
+//server side render the authuser
+// export async function getServerSideProps(context) {
+//   const AuthUser = await useAuthUser();
+//   console.log(AuthUser);
+//   return {
+//     props: { AuthUser },
+//   };
+// }
+
+export default withAuthUser()(New);
