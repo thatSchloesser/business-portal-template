@@ -1,7 +1,22 @@
 import { query } from '../../../utils/db';
+import { verifyIdToken } from 'next-firebase-auth';
+import initAuth from '../../../utils/initAuth';
+
+initAuth();
 
 const handler = async (req, res) => {
-  console.log(req);
+  if (!(req.headers && req.headers.authorization)) {
+    return res
+      .status(400)
+      .json({ error: 'Missing Authorization header value' });
+  }
+  const token = req.headers.authorization;
+  try {
+    await verifyIdToken(token);
+  } catch (e) {
+    return res.status(403).json({ error: 'Not authorized' });
+  }
+
   const { id, email, first_name, last_name } = req.body;
   try {
     if (!email || !first_name || !last_name) {
