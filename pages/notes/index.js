@@ -20,25 +20,25 @@ import { withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 const Notes = ({ notes }) => {
   const classes = useStyles();
 
-  console.log(notes);
-
   const emptyNote = {
     title: 'No Notes Found!',
     content: 'Go ahead and click that plus button',
   };
 
   let noteCards = [];
-  notes.forEach((note) => {
-    noteCards.push(
-      <Grid item xs={12} md={4}>
-        <Note note={note} />
-      </Grid>
-    );
-  });
+  if (Array.isArray(notes)) {
+    notes.forEach((note, key) => {
+      noteCards.push(
+        <Grid item xs={12} md={4} key={key}>
+          <Note note={note} />
+        </Grid>
+      );
+    });
+  }
   return (
     <Layout pageTitle={'Notes'}>
       <Grid container spacing={3}>
-        {notes.length > 0 ? (
+        {notes ? (
           noteCards
         ) : (
           <Grid item xs={12} md={4}>
