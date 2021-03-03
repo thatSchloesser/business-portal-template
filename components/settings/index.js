@@ -10,21 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-// import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-//TODO
-
-/*
-3. UPDATE user  
-
-~  update button in parent component
-~    state change
-  update input: get callback function working:
-  post update call: 
-    create the object with passed value instead of updating state. 
-      (But lookup how to efficiently update state of an OBJECT)
-*/
 
 const Settings = () => {
   const AuthUser = useAuthUser(); // the user is guaranteed to be authenticated
