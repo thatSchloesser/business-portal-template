@@ -17,7 +17,6 @@ const handler = async (req, res) => {
   } catch (e) {
     return res.status(403).json({ error: 'Not authorized' });
   }
-
   const { userid, title, content } = req.body;
   try {
     const results = await query(

@@ -10,13 +10,11 @@ const handler = async (req, res) => {
       .status(400)
       .json({ error: 'Missing Authorization header value' });
   }
-  const token = req.headers.authorization;
 
+  const token = req.headers.authorization;
   try {
     await verifyIdToken(token);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
     return res.status(403).json({ error: 'Not authorized' });
   }
 
