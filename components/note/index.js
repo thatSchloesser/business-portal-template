@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { withAuthUser, useAuthUser } from 'next-firebase-auth';
 
+import Link from 'next/link';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -40,9 +41,13 @@ const Note = ({ note, disableEdit }) => {
             <CardContent>{note.content}</CardContent>
             {!disableEdit ? (
               <CardActions>
-                <Button color='primary' size='small' disabled>
-                  edit
-                </Button>
+                <Link
+                  href={`/notes/edit/${note.id}?title=${note.title}&content=${note.content}`}
+                >
+                  <Button color='primary' size='small'>
+                    edit
+                  </Button>
+                </Link>
                 <Button color='primary' size='small' onClick={deleteHandler}>
                   delete
                 </Button>
